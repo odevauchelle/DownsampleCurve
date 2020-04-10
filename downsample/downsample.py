@@ -67,8 +67,7 @@ if __name__ == "__main__" :
     axis('off')
     xticks([]); yticks([])
 
-
-    fig_path_and_name = './' + __file__.split('/')[-1].split('.')[0] + '.pdf'
+    fig_path_and_name = './../figures/' + __file__.split('/')[-1].split('.')[0] + '.svg'
     savefig( fig_path_and_name , bbox_inches = 'tight' )
     print(fig_path_and_name)
 
