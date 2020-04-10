@@ -1,6 +1,6 @@
-# Downsample
+# DownsampleCurve
 
-The `downsample` function reduces the sampling of a two-dimensional parametric curve.
+The `downsample` function reduces the sampling of a two-dimensional curve.
 
 ## Simple example
 
