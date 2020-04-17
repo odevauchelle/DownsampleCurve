@@ -22,7 +22,7 @@ def decimate_once( x, y, kappa_ds_max ) :
     kappa_ds_2 = np.diff(dx_ds)**2 + np.diff(dy_ds)**2
 
     too_dense = np.array( [False] + list( kappa_ds_2 < kappa_ds_max**2 ) + [False] )
-    wanted = sort( list( where( too_dense )[0][::2] ) + list( where( ~too_dense )[0] ) )
+    wanted = np.sort( list( np.where( too_dense )[0][::2] ) + list( np.where( ~too_dense )[0] ) )
 
     return x[wanted], y[wanted]
 

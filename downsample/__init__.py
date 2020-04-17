@@ -28,4 +28,4 @@ __version__ = "0.0"
 
 __all__ = ['downsample']
 
-from downsample import downsample
+from .downsample import downsample
