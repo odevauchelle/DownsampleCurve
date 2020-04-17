@@ -1,6 +1,6 @@
 import numpy as np
 
-def decimate_once( x, y, kappa_ds_max ) :
+def decimate_once( x, y, kappa_ds_max, arg = False ) :
     '''
     x, y = decimate_once( x, y, kappa_ds_max )
 
@@ -24,9 +24,13 @@ def decimate_once( x, y, kappa_ds_max ) :
     too_dense = np.array( [False] + list( kappa_ds_2 < kappa_ds_max**2 ) + [False] )
     wanted = np.sort( list( np.where( too_dense )[0][::2] ) + list( np.where( ~too_dense )[0] ) )
 
-    return x[wanted], y[wanted]
+    if arg :
+        return x[wanted], y[wanted], wanted
 
-def downsample( x, y, kappa_ds_max = 0.02 ) :
+    else :
+        return x[wanted], y[wanted]
+
+def downsample( x, y, kappa_ds_max = 0.02, arg = False ) :
     '''
     x, y = downsample( x, y, kappa_ds_max = 0.02 )
 
@@ -39,13 +43,24 @@ def downsample( x, y, kappa_ds_max = 0.02 ) :
         kappa_ds_max (float) : curvature times step size, maximum acceptable value
     '''
 
+    if arg :
+        indices = arange(len(x))
+
     while True :
         n = len(x)
-        x, y = decimate_once( x, y, kappa_ds_max )
+        if arg :
+            x, y, wanted = decimate_once( x, y, kappa_ds_max, arg = True )
+            indices = indices[wanted]
+        else :
+            x, y = decimate_once( x, y, kappa_ds_max, arg = False )
         if len(x) == n :
             break
 
-    return x, y
+    if arg :
+        return x, y, indices
+
+    else :
+        return x, y
 
 if __name__ == "__main__" :
 
@@ -59,6 +74,9 @@ if __name__ == "__main__" :
     plot( x, y, label = 'Original', color = 'grey' )
 
     for kappa_ds_max in [0.03, 0.1] :
+        # x_ds, y_ds, indices = downsample( x, y, kappa_ds_max, arg = True )
+        # plot( x[indices], y[indices], '.', label = r'$\kappa \, \mathrm{d}s=' + str(kappa_ds_max) + '$' )
+        #
         x_ds, y_ds = downsample( x, y, kappa_ds_max )
         plot( x_ds, y_ds, '.', label = r'$\kappa \, \mathrm{d}s=' + str(kappa_ds_max) + '$' )
 
